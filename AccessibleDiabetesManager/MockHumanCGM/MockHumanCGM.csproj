@@ -61,9 +61,6 @@
 	  <MauiXaml Update="Views\ActionView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\AppConfigsView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -72,9 +69,6 @@
 	  </Compile>
 	  <Compile Update="Views\ActionView.xaml.cs">
 	    <DependentUpon>ActionView.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\AppConfigsView.xaml.cs">
-	    <DependentUpon>AppConfigsView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\UserStatsView.xaml.cs">
 	    <DependentUpon>UserStatsView.xaml</DependentUpon>

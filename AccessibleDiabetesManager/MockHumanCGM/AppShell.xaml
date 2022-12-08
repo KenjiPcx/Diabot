@@ -16,11 +16,6 @@
             Title="Actions"
             ContentTemplate="{DataTemplate views:ActionsView}"
             Route="ActionPage" />
-        
-        <ShellContent
-            Title="App Configs"
-            ContentTemplate="{DataTemplate views:AppConfigsView}"
-            Route="ActionPage" />
     </TabBar>
 
 
