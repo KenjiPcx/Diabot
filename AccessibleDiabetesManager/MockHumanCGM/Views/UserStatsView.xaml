@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:MockHumanCGM.Components"
+             xmlns:viewmodels="clr-namespace:MockHumanCGM.ViewModels"
+             x:Class="MockHumanCGM.Views.UserStatsView"
+             x:DataType="viewmodels:UserStatsViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="50"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="200"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Hello, I am a Mock Diabetic"
+                FontSize="32"
+                HorizontalOptions="Center" />
+
+            <components:MetricLabel
+                MetricTitle="Overall Status"
+                MetricValue="{Binding Status}"
+                HorizontalOptions="Center" />
+
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <components:MetricLabel 
+                    MetricTitle="Glucose Levels"
+                    MetricValue="{Binding GlucoseLevels, StringFormat='{0:F2} mg/dl'}" />
+                <components:MetricLabel 
+                    MetricTitle="Active Insulin Levels"
+                    MetricValue="{Binding ActiveInsulinLevels, StringFormat='{0:F2} doses'}" />
+                <components:MetricLabel 
+                    MetricTitle="Active Carbohydrates"
+                    MetricValue="{Binding ActiveCarbohydrates, StringFormat='{0:F2} g'}" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+
+</ContentPage>

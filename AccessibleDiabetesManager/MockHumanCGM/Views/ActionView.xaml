@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MockHumanCGM.ViewModels"
+             x:Class="MockHumanCGM.Views.ActionsView"
+             x:DataType="viewmodels:ActionsViewModel"
+             >
+    <VerticalStackLayout Spacing="50" 
+                         Margin="10" 
+                         VerticalOptions="Center" 
+                         HorizontalOptions="Center">
+        <VerticalStackLayout>
+        <Image
+                Source="dotnet_bot.png"
+                HeightRequest="200"
+                HorizontalOptions="Center" />
+
+        <Label
+                Text="Your mock human has actions."
+                FontSize="24"
+                HorizontalOptions="Center" />
+            </VerticalStackLayout>
+                <VerticalStackLayout>
+            <Label Text="Eat Food:" FontSize="24" />
+            <Entry x:Name="newCarbs"
+                   Text="{Binding NewCarbs}"
+                   TextChanged="OnCarbsEntryTextChanged"
+                   Placeholder="Enter carbohydrates grams consumed" />
+            <Button Text="Eat food" Command="{Binding EatFoodCommand}" />
+        </VerticalStackLayout>
+        
+        <VerticalStackLayout>
+            <Label Text="Inject Insulin Into System:" FontSize="24" />
+            <Button Text="Inject 1 Dose Of Insulin" Command="{Binding InjectInsulinCommand}" />
+        </VerticalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>
