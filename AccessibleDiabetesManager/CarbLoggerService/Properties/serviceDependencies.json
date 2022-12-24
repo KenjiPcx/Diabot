@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "cosmosdb1": {
+      "type": "cosmosdb",
+      "connectionId": "RecipeDB"
+    },
+    "secrets1": {
+      "type": "secrets",
+      "connectionId": "VaultUri"
+    }
+  }
+}

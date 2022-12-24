@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:27414",
+      "sslPort": 44330
+    }
+  },
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5143",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://diabetesappvault.vault.azure.net/",
+        "AZURE_USERNAME": "chang.phang@student.manchester.ac.uk"
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7059;http://localhost:5143",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://diabetesappvault.vault.azure.net/",
+        "AZURE_USERNAME": "chang.phang@student.manchester.ac.uk"
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://diabetesappvault.vault.azure.net/",
+        "AZURE_USERNAME": "chang.phang@student.manchester.ac.uk"
+      }
+    }
+  }
+}

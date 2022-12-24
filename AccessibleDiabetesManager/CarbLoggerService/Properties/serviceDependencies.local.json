@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "cosmosdb1": {
+      "secretStore": "AzureKeyVault",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.DocumentDB/databaseAccounts/diabetes-recipes-db",
+      "type": "cosmosdb.azure",
+      "connectionId": "RecipeDB"
+    },
+    "secrets1": {
+      "secretStore": null,
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.KeyVault/vaults/DiabetesAppVault",
+      "type": "secrets.keyVault",
+      "connectionId": "VaultUri"
+    }
+  }
+}
