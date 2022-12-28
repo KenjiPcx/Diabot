@@ -5,7 +5,7 @@ using Diabot.Services.Interfaces;
 using Diabot.Views;
 using System.Collections.ObjectModel;
 
-namespace Diabot.ViewModels
+namespace Diabot.ViewModels.Meals
 {
     [QueryProperty(nameof(Meal), "Meal")]
     public partial class MealDetailsViewModel : BaseViewModel

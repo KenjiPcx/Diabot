@@ -1,6 +1,6 @@
-using Diabot.ViewModels;
+using Diabot.ViewModels.Meals;
 
-namespace Diabot.Views;
+namespace Diabot.Views.Meals;
 
 public partial class MealsPage : ContentPage
 {

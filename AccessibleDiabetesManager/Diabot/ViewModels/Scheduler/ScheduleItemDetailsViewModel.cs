@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Diabot.ViewModels
+namespace Diabot.ViewModels.Scheduler
 {
-    internal class SchedulesViewModel
+    class ScheduleItemDetailsViewModel
     {
     }
 }

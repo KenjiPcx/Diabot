@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Diabot.Views.Schedule"
-             Title="Schedule">
+             x:Class="Diabot.Views.Scheduler.AddScheduleItemPage"
+             Title="AddScheduleItemPage">
     <VerticalStackLayout>
         <Label 
             Text="Welcome to .NET MAUI!"

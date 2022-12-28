@@ -2,6 +2,7 @@
 using Diabot.Services.Interfaces;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace Diabot.Services.Concrete
             _container = client.GetContainer(_databaseName, _containerName);
         }
 
-        public async Task<List<Meal>> GetAllMeals()
+        public async Task<ObservableCollection<Meal>> GetAllMeals()
         {
             IOrderedQueryable<Meal> queryable = _container.GetItemLinqQueryable<Meal>();
 
@@ -30,7 +31,7 @@ namespace Diabot.Services.Concrete
                 FeedResponse<Meal> response = await linqFeed.ReadNextAsync();
                 meals.AddRange(response);
             }
-            return meals;
+            return new ObservableCollection<Meal>(meals);
         }
 
         public async Task<Meal> GetMealById(string id)

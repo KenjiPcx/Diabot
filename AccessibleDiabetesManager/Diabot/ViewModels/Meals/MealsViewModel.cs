@@ -5,7 +5,7 @@ using Diabot.Services.Interfaces;
 using Diabot.Views;
 using System.Collections.ObjectModel;
 
-namespace Diabot.ViewModels
+namespace Diabot.ViewModels.Meals
 {
     [QueryProperty(nameof(Reload), "Reload")]
     public partial class MealsViewModel : BaseViewModel

@@ -1,4 +1,4 @@
-namespace Diabot.Views;
+namespace Diabot.Views.Home;
 
 public partial class HomePage : ContentPage
 {

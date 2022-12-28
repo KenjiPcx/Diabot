@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Diabot.Services.Interfaces;
 using Diabot.Views;
 
-namespace Diabot.ViewModels
+namespace Diabot.ViewModels.Meals
 {
     [QueryProperty(nameof(Meal), "Meal")]
     public partial class EditMealViewModel : BaseViewModel

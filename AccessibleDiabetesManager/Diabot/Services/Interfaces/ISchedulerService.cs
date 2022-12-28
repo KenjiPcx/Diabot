@@ -1,20 +1,19 @@
 ﻿using Diabot.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Diabot.Services.Interfaces
 {
-    internal interface ISchedulerService
+    public interface ISchedulerService
     {
-        Task<List<Schedule>> GetAllSchedules();
-        Task<Schedule> GetScheduleById(string id);
-        Task<Schedule> UpdateSchedule(string id, Schedule schedule);
-        Task<Schedule> AddSchedule(Schedule schedule);
-        Task DeleteSchedule(string id);
-        Task<Schedule> AddScheduleItemToSchedule(ScheduleItem item, string scheduleId);
-        Task<Schedule> RemoveScheduleItemFromSchedule(ScheduleItem item, string scheduleId);
+        Task<ObservableCollection<ScheduleItem>> GetAllScheduleItems();
+        Task<ScheduleItem> GetScheduleItemById(string id);
+        Task<ScheduleItem> UpdateScheduleItem(string id, ScheduleItem updatedItem);
+        Task<ScheduleItem> AddScheduleItem(ScheduleItem newItem);
+        Task DeleteScheduleItem(string id);
     }
 }

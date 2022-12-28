@@ -1,21 +1,26 @@
 ﻿using Diabot.Services.Concrete;
 using Diabot.Services.Interfaces;
-using Diabot.ViewModels;
-using Diabot.Views;
+using Diabot.ViewModels.Meals;
+using Diabot.ViewModels.Scheduler;
+using Diabot.ViewModels.Home;
+using Diabot.Views.Meals;
+using Diabot.Views.Scheduler;
+using Diabot.Views.Home;
 using Microsoft.Azure.Cosmos;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace Diabot
 {
     public static class MauiProgram
     {
         private const string _cosmosEndpoint = "https://diabetes-recipes-db.documents.azure.com:443/";
-        private const string _cosmosKey = "zB9DVbgkFWw5E5nORf1J9a0FTXBTTUX2TPPg7L2HUHM4wwHxOdlvvubsuXukI8l6nbTB9qUTolgYACDb1MbnTw==";
+        private const string _cosmosKey = "<Enter CosmosDB Key Here>";
 
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+            builder.ConfigureSyncfusionCore();
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -23,7 +28,7 @@ namespace Diabot
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-            
+
             Task.Run(InitCosmosDb);
             builder = RegisterViews(builder);
             builder = RegisterViewModels(builder);
@@ -37,20 +42,40 @@ namespace Diabot
 
         private static MauiAppBuilder RegisterViews(MauiAppBuilder builder)
         {
+            // Meals
             builder.Services.AddSingleton<MealsPage>();
             builder.Services.AddTransient<MealDetailsPage>();
             builder.Services.AddTransient<AddMealPage>();
             builder.Services.AddTransient<EditMealPage>();
+            
+            // Scheduler
+            builder.Services.AddSingleton<SchedulerPage>();
+            builder.Services.AddTransient<ScheduleItemDetailsPage>();
+            builder.Services.AddTransient<AddScheduleItemPage>();
+            builder.Services.AddTransient<EditScheduleItemPage>();
+            
+            // Home
+            builder.Services.AddSingleton<HomePage>();
             return builder;
         }
         
         private static MauiAppBuilder RegisterViewModels(MauiAppBuilder builder)
         {
+            // Meals
             builder.Services.AddSingleton<MealsViewModel>();
             builder.Services.AddTransient<MealDetailsViewModel>();
             builder.Services.AddTransient<AddMealViewModel>();
             builder.Services.AddTransient<EditMealViewModel>();
-            builder.Services.AddSingleton<SchedulesViewModel>();
+
+            // Scheduler
+            builder.Services.AddSingleton<SchedulerViewModel>();
+            builder.Services.AddTransient<ScheduleItemDetailsViewModel>();
+            builder.Services.AddTransient<AddScheduleItemViewModel>();
+            builder.Services.AddTransient<EditScheduleItemViewModel>();
+
+            // Home
+            builder.Services.AddSingleton<HomeViewModel>();
+
             return builder;
         }
         
@@ -91,7 +116,11 @@ namespace Diabot
                     partitionKeyPath: "/schedules",
                     throughput: 400
                 );
-            } catch (Exception ex) { }
+            } 
+            catch (Exception ex) 
+            {
+                await Shell.Current.DisplayAlert("Cosmos Error", $"Unable to connect to CosmosDB. {ex.Message}", "Quit");
+            }
         }
     }
 }

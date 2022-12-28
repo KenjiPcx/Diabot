@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace Diabot.Services.Concrete
 {
-    class CosmosSchedulerService : ISchedulerService
+    public class CosmosSchedulerService : ISchedulerService
     {
         private readonly Container _container;
         private const string _databaseName = "diabot-db";
@@ -21,67 +22,51 @@ namespace Diabot.Services.Concrete
             _container = client.GetContainer(_databaseName, _containerName);
         }
 
-        public async Task<List<Schedule>> GetAllSchedules()
+        public async Task<ObservableCollection<ScheduleItem>> GetAllScheduleItems()
         {
-            IOrderedQueryable<Schedule> queryable = _container.GetItemLinqQueryable<Schedule>();
+            IOrderedQueryable<ScheduleItem> queryable = _container.GetItemLinqQueryable<ScheduleItem>();
 
-            using FeedIterator<Schedule> linqFeed = queryable.ToFeedIterator();
+            using FeedIterator<ScheduleItem> linqFeed = queryable.ToFeedIterator();
 
-            var schedules = new List<Schedule>();
+            var schedules = new List<ScheduleItem>();
             while (linqFeed.HasMoreResults)
             {
-                FeedResponse<Schedule> response = await linqFeed.ReadNextAsync();
+                FeedResponse<ScheduleItem> response = await linqFeed.ReadNextAsync();
                 schedules.AddRange(response);
             }
-            return schedules;
+            return new ObservableCollection<ScheduleItem>(schedules);
         }
 
-        public async Task<Schedule> GetScheduleById(string id)
+        public async Task<ScheduleItem> GetScheduleItemById(string id)
         {
-            var schedule = await _container.ReadItemAsync<Schedule>(id, PartitionKey.None);
+            var schedule = await _container.ReadItemAsync<ScheduleItem>(id, PartitionKey.None);
 
             return schedule;
         }
 
-        public async Task<Schedule> AddSchedule(Schedule schedule)
+        public async Task<ScheduleItem> AddScheduleItem(ScheduleItem schedule)
         {
-            Schedule newSchedule = await _container.CreateItemAsync(
+            ScheduleItem newScheduleItem = await _container.CreateItemAsync(
                 item: schedule
             );
 
-            return newSchedule;
+            return newScheduleItem;
         }
 
-        public async Task<Schedule> UpdateSchedule(string id, Schedule updatedSchedule)
+        public async Task<ScheduleItem> UpdateScheduleItem(string id, ScheduleItem updatedScheduleItem)
         {
-            updatedSchedule.ScheduleId = new Guid(id);
-            Schedule replacedSchedule = await _container.ReplaceItemAsync(
-                item: updatedSchedule,
+            updatedScheduleItem.ScheduleItemId = new Guid(id);
+            ScheduleItem replacedScheduleItem = await _container.ReplaceItemAsync(
+                item: updatedScheduleItem,
                 id: id
             );
 
-            return replacedSchedule;
+            return replacedScheduleItem;
         }
 
-        public async Task DeleteSchedule(string id)
+        public async Task DeleteScheduleItem(string id)
         {
-            await _container.DeleteItemAsync<Schedule>(id, PartitionKey.None);
-        }
-
-        public async Task<Schedule> AddScheduleItemToSchedule(ScheduleItem item, string scheduleId)
-        {
-            var schedule = await GetScheduleById(scheduleId);
-            schedule.ScheduleItems.Add(item);
-
-            return await UpdateSchedule(scheduleId, schedule);
-        }
-
-        public async Task<Schedule> RemoveScheduleItemFromSchedule(ScheduleItem item, string scheduleId)
-        {
-            var schedule = await GetScheduleById(scheduleId);
-            schedule.ScheduleItems.Remove(item);
-
-            return await UpdateSchedule(scheduleId, schedule);
+            await _container.DeleteItemAsync<ScheduleItem>(id, PartitionKey.None);
         }
     }
 }

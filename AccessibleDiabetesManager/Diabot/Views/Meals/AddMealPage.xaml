@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodel="clr-namespace:Diabot.ViewModels"
+             xmlns:viewmodel="clr-namespace:Diabot.ViewModels.Meals"
              xmlns:model="clr-namespace:Diabot.Models"
-             x:Class="Diabot.Views.AddMealPage"
+             x:Class="Diabot.Views.Meals.AddMealPage"
              x:DataType="viewmodel:AddMealViewModel"
              x:Name="AddMealsPage"
              Title="{Binding Title}">

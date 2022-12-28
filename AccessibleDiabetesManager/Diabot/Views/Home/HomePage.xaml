@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Diabot.Views.Home.HomePage"
+             Title="HomePage">
+    <Grid RowDefinitions="*,3*,*">
+        <StackLayout BackgroundColor="Pink">
+            <Label 
+                Text="Display some explainations about the app here" 
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+        </StackLayout>
+        <StackLayout BackgroundColor="Purple" Grid.Row="1">
+            <Label 
+                Text="Display a glucose chart here" 
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+        </StackLayout>
+        <StackLayout BackgroundColor="LavenderBlush" Grid.Row="2">
+            <Label 
+                Text="Display a button to talk to dia here" 
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+        </StackLayout>
+    </Grid>
+</ContentPage>

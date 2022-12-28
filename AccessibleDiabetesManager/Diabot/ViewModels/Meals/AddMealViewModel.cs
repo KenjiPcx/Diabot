@@ -6,7 +6,7 @@ using Diabot.Views;
 using Microsoft.Azure.Cosmos.Linq;
 using System.Collections.ObjectModel;
 
-namespace Diabot.ViewModels
+namespace Diabot.ViewModels.Meals
 {
     public partial class AddMealViewModel : BaseViewModel
     {
