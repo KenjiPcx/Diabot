@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Diabot.ViewModels"
+             xmlns:model="clr-namespace:Diabot.Models"
+             x:Class="Diabot.Views.AddMealPage"
+             x:DataType="viewmodel:AddMealViewModel"
+             x:Name="AddMealsPage"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid ColumnDefinitions="*,Auto,*"
+                      RowDefinitions="140,Auto">
+                <BoxView
+                        Color="{StaticResource Secondary}"
+                        Grid.ColumnSpan="3"
+                        HeightRequest="140"
+                        HorizontalOptions="FillAndExpand"/>
+
+                <Label Grid.ColumnSpan="3" 
+                       FontSize="Subtitle"
+                       Padding="20"
+                       HorizontalOptions="Center"
+                       Text="Save commonly eaten meals here" />
+                <Frame
+                        Grid.RowSpan="2"
+                        Grid.Column="1"
+                        HeightRequest="160"
+                        WidthRequest="160"
+                        CornerRadius="90"
+                        HorizontalOptions="Center"
+                        IsClippedToBounds="True"
+                        Padding="0"
+                        Margin="0,60,0,0">
+                    <Image HeightRequest="140"
+                           WidthRequest="140"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Source="dotnet_bot.png" />
+                </Frame>
+            </Grid>
+
+            <VerticalStackLayout Padding="20" Spacing="20">
+                <StackLayout>
+                    <Label Text="Meal Name" />
+                    <Entry Placeholder="Meal name"
+                           ClearButtonVisibility="WhileEditing"
+                           Text="{Binding MealName}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Meal Description" />
+                    <Editor Placeholder="Meal description"
+                            AutoSize="TextChanges"
+                            IsTextPredictionEnabled="True"
+                            Text="{Binding MealDescription}"/>
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Meal Image Url" />
+                    <Entry Placeholder="Meal image url"
+                           ClearButtonVisibility="WhileEditing"
+                           Keyboard="Url"
+                           Text="{Binding MealImageUrl}" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Ingredients" />
+                    <Grid ColumnDefinitions="2*,*,*,*">
+                        <Entry Grid.Column="0"
+                               Placeholder="Ingredient name"
+                               ClearButtonVisibility="WhileEditing"
+                               IsTextPredictionEnabled="True"
+                               Text="{Binding NewIngredientName}" />
+                        <Picker Grid.Column="1"
+                                Title="Carb type"
+                                ItemsSource="{Binding CarbTypes}"
+                                SelectedItem="{Binding NewIngredientCarbType}" />
+                        <Entry Grid.Column="2"
+                               Placeholder="Carb amount" 
+                               Keyboard="Numeric"
+                               Text="{Binding NewIngredientCarbAmount}"/>
+                        <Button Grid.Column="3"
+                                Text="Add"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="Center"
+                                TextColor="{StaticResource Primary}"
+                                Command="{Binding AddIngredientCommand}"/>
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding Ingredients}"
+                                    SelectionMode="None">
+                        <CollectionView.EmptyView>
+                            <ContentView>
+                                <VerticalStackLayout Padding="10,5">
+                                    <Label Text="None, add some ingredients"
+                                           HorizontalOptions="CenterAndExpand"
+                                           HorizontalTextAlignment="Center"
+                                           TextColor="{StaticResource Primary}"/>
+                                </VerticalStackLayout>
+                            </ContentView>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Ingredient">
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem Text="Remove"
+                                                       BackgroundColor="Red"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:AddMealViewModel}}, Path=RemoveIngredientCommand}"
+                                                       CommandParameter="{Binding .}" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <VerticalStackLayout Padding="10,5">
+                                        <Label Text="{Binding IngredientName}" FontSize="14" />
+                                        <Label Text="{Binding Details}" FontSize="12" TextColor="{StaticResource Primary}" />
+                                    </VerticalStackLayout>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
+                <StackLayout>
+                    <Label Text="Extra Carbs Offset" />
+                    <Entry Placeholder="Enter extra carbs offset"
+                           ClearButtonVisibility="WhileEditing"
+                           IsTextPredictionEnabled="True"
+                           Keyboard="Numeric"
+                           Text="{Binding ExtraCarbsOffset}" />
+                </StackLayout>
+
+                <Button Text="Dia, save this meal!"
+                        Command="{Binding AddMealCommand}"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
