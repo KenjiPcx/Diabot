@@ -1,5 +1,5 @@
 ﻿using CarbLoggerService.Models;
-using CarbLoggerService.Services;
+using CarbLoggerService.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarbLoggerService.Controllers
@@ -31,11 +31,11 @@ namespace CarbLoggerService.Controllers
             return Ok(meal);
         }
 
-        [HttpPost]
+        [HttpPost("new")]
         public async Task<IActionResult> AddMeal(Meal newMeal)
         {
             var meal = await _mealService.AddMeal(newMeal);
-            return Created(new Uri($"/Meal/{meal.MealId}", UriKind.Relative), meal);
+            return Created(new Uri($"/meal/{meal.MealId}", UriKind.Relative), meal);
         }
 
         [HttpPut("{id}")]

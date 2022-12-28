@@ -2,7 +2,7 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
 
-namespace CarbLoggerService.Services
+namespace CarbLoggerService.Services.Concrete
 {
     public class MealService : IMealService
     {
@@ -18,8 +18,8 @@ namespace CarbLoggerService.Services
         public async Task<List<Meal>> GetAllMeals()
         {
             IOrderedQueryable<Meal> queryable = _container.GetItemLinqQueryable<Meal>();
-            var matches = queryable.Where(item => true);
-            using FeedIterator<Meal> linqFeed = matches.ToFeedIterator();
+
+            using FeedIterator<Meal> linqFeed = queryable.ToFeedIterator();
 
             var meals = new List<Meal>();
             while (linqFeed.HasMoreResults)
@@ -33,7 +33,7 @@ namespace CarbLoggerService.Services
         public async Task<Meal> GetMealById(string id)
         {
             var meal = await _container.ReadItemAsync<Meal>(id, PartitionKey.None);
-            
+
             return meal;
         }
 

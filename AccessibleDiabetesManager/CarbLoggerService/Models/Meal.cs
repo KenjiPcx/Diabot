@@ -6,14 +6,11 @@ namespace CarbLoggerService.Models
     {
         [JsonProperty("id")]
         public Guid MealId { get; set; }
-        [JsonProperty("name")]
         public string MealName { get; set; }
-        [JsonProperty("description")]
         public string MealDescription { get; set; }
-        [JsonProperty("ingredients")]
         public List<Ingredient> Ingredients { get; set; }
-        [JsonProperty("extraCarbsOffset")]
         public double ExtraCarbsOffset { get; set; }
+        public string ImageUrl { get; set; }
     }
 
     public class Ingredient
@@ -21,6 +18,8 @@ namespace CarbLoggerService.Models
         public string IngredientName { get; set; }
         public CarbType CarbType { get; set; }
         public double CarbAmount { get; set; }
+
+        public string Details => $"{CarbAmount}g - {CarbType} carbs";
     }
 
     public enum CarbType

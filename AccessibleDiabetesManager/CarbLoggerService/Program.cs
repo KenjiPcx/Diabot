@@ -1,5 +1,6 @@
 using Azure.Identity;
-using CarbLoggerService.Services;
+using CarbLoggerService.Services.Concrete;
+using CarbLoggerService.Services.Interface;
 using Microsoft.Azure.Cosmos;
 using System.Diagnostics;
 
@@ -25,9 +26,11 @@ internal class Program
         // Add services to the container.
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c => c.UseDateOnlyTimeOnlyStringConverters());
+        builder.Services.AddDateOnlyTimeOnlyStringConverters();
 
         builder.Services.AddScoped<IMealService, MealService>();
+        builder.Services.AddScoped<IMealSchedulerService, MealSchedulerService>();
 
         var app = builder.Build();
         Debug.WriteLine(app.Configuration["RecipeDB"]);
@@ -55,6 +58,11 @@ internal class Program
         await db.CreateContainerIfNotExistsAsync(
             id: "meals",
             partitionKeyPath: "/meals",
+            throughput: 400
+        );
+        await db.CreateContainerIfNotExistsAsync(
+            id: "schedules",
+            partitionKeyPath: "/schedules",
             throughput: 400
         );
     }

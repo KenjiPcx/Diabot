@@ -1,6 +1,6 @@
 ﻿using CarbLoggerService.Models;
 
-namespace CarbLoggerService.Services
+namespace CarbLoggerService.Services.Interface
 {
     public interface IMealService
     {
