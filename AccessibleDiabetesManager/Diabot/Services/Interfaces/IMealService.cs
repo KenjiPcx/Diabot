@@ -15,5 +15,6 @@ namespace Diabot.Services.Interfaces
         Task<Meal> UpdateMeal(string id, Meal updatedMeal);
         Task DeleteMeal(string id);
         Task<Meal> GetMealById(string id);
+        Task<ObservableCollection<Meal>> GetMealsByIds(List<string> ids);
     }
 }

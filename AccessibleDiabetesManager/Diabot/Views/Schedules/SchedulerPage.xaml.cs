@@ -16,12 +16,15 @@ public partial class SchedulerPage : ContentPage
     private void OnSchedulerTapped(object sender, SchedulerTappedEventArgs e)
     {
         var appointments = e.Appointments;
-        var selectedDate = e.Date;
-        var schedulerElement = e.Element;
 
         if (appointments.Count > 0)
         {
-            _vm.
+            var mealSession = appointments[0];
+            _vm.GoToMealSessionDetailsPageCommand.Execute(mealSession);
+        } 
+        else
+        {
+            _vm.GoToScheduleMealSessionPageCommand.Execute(null);
         }
     }
 }

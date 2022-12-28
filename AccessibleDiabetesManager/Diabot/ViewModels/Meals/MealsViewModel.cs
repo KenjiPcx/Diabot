@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Diabot.Models;
 using Diabot.Services.Interfaces;
-using Diabot.Views;
+using Diabot.Views.Meals;
 using System.Collections.ObjectModel;
 
 namespace Diabot.ViewModels.Meals

@@ -2,13 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using Diabot.Models;
 using Diabot.Services.Interfaces;
-using Syncfusion.Maui.Scheduler;
-using System;
-using System.Collections.Generic;
+using Diabot.Views.Scheduler;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Diabot.ViewModels.Scheduler
 {
@@ -57,13 +52,24 @@ namespace Diabot.ViewModels.Scheduler
         }
 
         [RelayCommand]
-        async Task GoToAddScheduleItemPage(ScheduleItem item)
+        async Task GoToScheduleMealSessionPage(ScheduleItem mealSession)
         {
             if (IsBusy) return;
 
-            await Shell.Current.GoToAsync($"{nameof(GoToAddScheduleItemPage)}", true, new Dictionary<string, object>
+            await Shell.Current.GoToAsync($"{nameof(AddScheduleItemPage)}", true, new Dictionary<string, object>
             {
-                { "ScheduleItem", item }
+                { "MealSession", mealSession }
+            });
+        }
+
+        [RelayCommand]
+        async Task GoToMealSessionDetailsPage(ScheduleItem mealSession)
+        {
+            if (IsBusy) return;
+
+            await Shell.Current.GoToAsync($"{nameof(ScheduleItemDetailsPage)}", true, new Dictionary<string, object>
+            {
+                { "MealSession", mealSession }
             });
         }
     }

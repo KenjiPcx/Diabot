@@ -41,6 +41,14 @@ namespace Diabot.Services.Concrete
             return meal;
         }
 
+        public async Task<ObservableCollection<Meal>> GetMealsByIds(List<string> ids)
+        {
+            var queryIds = ids.Select(id => (id, PartitionKey.None)).ToList();
+            var meals = await _container.ReadManyItemsAsync<Meal>(queryIds);
+
+            return new ObservableCollection<Meal>(meals.ToList());
+        }
+
         public async Task<Meal> AddMeal(Meal meal)
         {
             Meal createdMeal = await _container.CreateItemAsync(

@@ -3,23 +3,25 @@
     x:Class="Diabot.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:view="clr-namespace:Diabot.Views"
+    xmlns:meals="clr-namespace:Diabot.Views.Meals"
+    xmlns:scheduler="clr-namespace:Diabot.Views.Scheduler"
+    xmlns:home="clr-namespace:Diabot.Views.Home"
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
         <ShellContent
             Title="Meals"
-            ContentTemplate="{DataTemplate view:MealsPage}"
+            ContentTemplate="{DataTemplate meals:MealsPage}"
             Icon="foodbowl.svg"
             Route="Meals" />
         <ShellContent
             Title="Home"
-            ContentTemplate="{DataTemplate view:HomePage}"
+            ContentTemplate="{DataTemplate home:HomePage}"
             Icon="sugarcubes.svg"
             Route="Home" />
         <ShellContent
             Title="Schedule"
-            ContentTemplate="{DataTemplate view:SchedulerPage}"
+            ContentTemplate="{DataTemplate scheduler:SchedulerPage}"
             Icon="calendar.svg"
             Route="Schedule" />
     </TabBar>

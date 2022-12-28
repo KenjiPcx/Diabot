@@ -20,7 +20,7 @@ namespace Diabot.ViewModels.Scheduler
         {
             _schedulerService = schedulerService;
             _mealService = mealService;
-            Title = "Schedule a meal";
+            Title = "Schedule a meal session";
             Task.Run(LoadMealPickerOptions);
         }
 
@@ -44,13 +44,16 @@ namespace Diabot.ViewModels.Scheduler
 
         public ObservableCollection<Meal> MealPickerOptions { get; set; }
 
+        [ObservableProperty]
+        bool isLoadingMealPickerOptions;
+
         private async Task LoadMealPickerOptions()
         {
-            if (IsBusy) return;
+            if (IsLoadingMealPickerOptions) return;
 
             try
             {
-                IsBusy = true;
+                IsLoadingMealPickerOptions = true;
                 MealPickerOptions = await _mealService.GetAllMeals();
             }
             catch (Exception ex) 
@@ -59,7 +62,7 @@ namespace Diabot.ViewModels.Scheduler
             }
             finally
             { 
-                IsBusy = false; 
+                IsLoadingMealPickerOptions = false; 
             }
         }
 
@@ -89,7 +92,7 @@ namespace Diabot.ViewModels.Scheduler
                     From = From,
                     To = To,
                     Notes = Notes,
-                    MealIds = new ObservableCollection<Guid>(Meals.Select(meal => meal.MealId))
+                    MealIds = Meals.Select(meal => meal.MealId.ToString()).ToList(),
                 };
                 await _schedulerService.AddScheduleItem(item);
             }
