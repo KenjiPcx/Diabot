@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Diabot.ViewModels.Home
 {
-    class HomeViewModel
+    public partial class HomeViewModel : BaseViewModel
     {
+        public HomeViewModel() 
+        { 
+            Title = "Home";
+        }
     }
 }

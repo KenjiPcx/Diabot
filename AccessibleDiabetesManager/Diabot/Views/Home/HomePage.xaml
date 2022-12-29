@@ -1,17 +1,62 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Diabot.ViewModels.Home"
+             xmlns:model="clr-namespace:Diabot.Models"
              x:Class="Diabot.Views.Home.HomePage"
-             Title="HomePage">
-    <Grid RowDefinitions="*,3*,*">
-        <StackLayout BackgroundColor="Pink">
-            <Label Text="Display some explainations about the app here" />
-        </StackLayout>
-        <StackLayout BackgroundColor="Purple" Grid.Row="1">
-            <Label Text="Display a glucose chart here" />
-        </StackLayout>
-        <StackLayout BackgroundColor="LavenderBlush" Grid.Row="2">
-            <Label Text="Display a button to talk to dia here" />
+             x:DataType="viewmodel:HomeViewModel"
+             Title="{Binding Title}">
+    <Grid RowDefinitions="1.5*,5*,*">
+        <Grid
+            ColumnDefinitions="Auto,*"
+            BackgroundColor="{StaticResource Secondary}"
+            Padding="25">
+            <Image Grid.Column="0"
+                    Aspect="AspectFill"
+                   Source="dotnet_bot.svg" />
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Welcome to Diabot" 
+                       FontSize="20" 
+                       HorizontalTextAlignment="Center" />
+                <Label Text="You can log carbs/schedule meals here either manually or through our bot, Dia!" 
+                       Padding="10,0,10,10"
+                       TextColor="{StaticResource Primary}"
+                       FontSize="15" 
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </Grid>
+        
+        <Grid Grid.Row="1"
+              RowDefinitions="2.5*,*">
+            <StackLayout Grid.Row="0" BackgroundColor="Pink" Padding="20">
+                <Label Text="Chart" 
+                       VerticalTextAlignment="Center"/>
+            </StackLayout>
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="*,*"
+                  BackgroundColor="AliceBlue" 
+                  Padding="20"
+                  ColumnSpacing="20">
+                <Frame>
+                    <VerticalStackLayout>
+                        <Label Text="Carbs Eaten today" />
+                    </VerticalStackLayout>
+                </Frame>
+                <Frame Grid.Column="1">
+                    <VerticalStackLayout>
+                        <Label Text="Carbs Left today" />
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+        </Grid>
+        
+        <StackLayout Grid.Row="2"
+                     BackgroundColor="{StaticResource Secondary}" >
+            <Button Text="Talk to Dia" 
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="Center" 
+                    WidthRequest="180" 
+                    CornerRadius="20"/>
         </StackLayout>
     </Grid>
 </ContentPage>
