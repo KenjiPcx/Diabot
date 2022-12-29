@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace Diabot.ViewModels.Scheduler
 {
+    [QueryProperty(nameof(Reload), "Reload")]
     public partial class SchedulerViewModel : BaseViewModel
     {
         private readonly ISchedulerService _schedulerService;
@@ -15,18 +16,10 @@ namespace Diabot.ViewModels.Scheduler
         {
             _schedulerService = schedulerService;
             Title = "Meal Schedule";
-            Meals = new ObservableCollection<ScheduleItem> {
-                new ScheduleItem
-                {
-                    Notes = "Can;t wait",
-                    MealName = "Fried Rice",
-                    ScheduleItemId = Guid.NewGuid(),
-                    Background = new SolidColorBrush(Color.FromArgb("#FF8B1FA9")),
-                    From = DateTime.Now,
-                    To = DateTime.Now.AddMinutes(60),
-                } 
-            };
+            Task.Run(FetchAllMeals);
         }
+
+        public bool Reload { get; set; }
 
         [ObservableProperty]
         ObservableCollection<ScheduleItem> meals;
@@ -52,13 +45,14 @@ namespace Diabot.ViewModels.Scheduler
         }
 
         [RelayCommand]
-        async Task GoToScheduleMealSessionPage(ScheduleItem mealSession)
+        async Task GoToScheduleMealSessionPage(DateTime selectedDateTime)
         {
             if (IsBusy) return;
 
             await Shell.Current.GoToAsync($"{nameof(AddScheduleItemPage)}", true, new Dictionary<string, object>
             {
-                { "MealSession", mealSession }
+                { "SelectedDate", selectedDateTime.Date },
+                { "SelectedTime", selectedDateTime.TimeOfDay }
             });
         }
 

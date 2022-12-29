@@ -1,9 +1,12 @@
+using Diabot.ViewModels.Scheduler;
+
 namespace Diabot.Views.Scheduler;
 
 public partial class AddScheduleItemPage : ContentPage
 {
-	public AddScheduleItemPage()
+	public AddScheduleItemPage(AddScheduleItemViewModel vm)
 	{
 		InitializeComponent();
+		BindingContext = vm;
 	}
 }

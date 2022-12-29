@@ -32,13 +32,14 @@ namespace Diabot.ViewModels.Scheduler
         bool isLoadingMeals;
 
         [RelayCommand]
-        async Task GetMealsAsync()
+        async Task FetchAllMealsAsync()
         {
-            if (IsLoadingMeals) return;
+            if (IsBusy) return;
+            if (MealSession == null) return;
 
             try
             {
-                IsLoadingMeals = true;
+                IsBusy = true;
                 Meals = await _mealService.GetMealsByIds(MealSession.MealIds);
             }
             catch (Exception ex)
@@ -47,7 +48,7 @@ namespace Diabot.ViewModels.Scheduler
             }
             finally
             {
-                IsLoadingMeals = false;
+                IsBusy = false;
             }
         }
 

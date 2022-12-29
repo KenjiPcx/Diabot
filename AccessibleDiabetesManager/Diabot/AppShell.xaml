@@ -12,18 +12,15 @@
         <ShellContent
             Title="Meals"
             ContentTemplate="{DataTemplate meals:MealsPage}"
-            Icon="foodbowl.svg"
-            Route="Meals" />
+            Icon="foodbowl.svg" />
         <ShellContent
             Title="Home"
             ContentTemplate="{DataTemplate home:HomePage}"
-            Icon="sugarcubes.svg"
-            Route="Home" />
+            Icon="sugarcubes.svg" />
         <ShellContent
             Title="Schedule"
             ContentTemplate="{DataTemplate scheduler:SchedulerPage}"
-            Icon="calendar.svg"
-            Route="Schedule" />
+            Icon="calendar.svg" />
     </TabBar>
     
 </Shell>

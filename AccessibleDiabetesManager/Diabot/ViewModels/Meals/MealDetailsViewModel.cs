@@ -70,6 +70,7 @@ namespace Diabot.ViewModels.Meals
 
         private void CalcCarbsDist(Meal meal)
         {
+            // todo: Change this
             _carbsDistribution = new Dictionary<CarbType, double>();
             foreach (var ingredient in meal.Ingredients)
             {
@@ -88,6 +89,9 @@ namespace Diabot.ViewModels.Meals
         {
             get
             {
+                if (_carbsDistribution == null) 
+                    return new ObservableCollection<TextCell>();
+
                 try
                 {
                     var cells = _carbsDistribution.Select(

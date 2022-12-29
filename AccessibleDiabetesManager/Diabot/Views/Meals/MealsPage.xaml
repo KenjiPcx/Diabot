@@ -12,7 +12,9 @@
             Text="New"
             Command="{Binding GoToAddFormCommand}" />
     </ContentPage.ToolbarItems>
-    <VerticalStackLayout>
+    
+    <Grid ColumnDefinitions="*"
+          RowDefinitions="*">
         <RefreshView
             Command="{Binding GetAllMealsCommand}"
             IsRefreshing="{Binding IsRefreshing}" >
@@ -21,6 +23,7 @@
                          VerticalOptions="Center">
                 <CollectionView
                     ItemsSource="{Binding Meals}"
+                    IsVisible="{Binding IsNotBusy}"
                     SelectionMode="None">
                     <CollectionView.EmptyView>
                         <VerticalStackLayout Padding="50"
@@ -78,5 +81,5 @@
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"
             VerticalOptions="Center" />
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

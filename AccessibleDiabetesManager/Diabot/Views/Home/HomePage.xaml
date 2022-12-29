@@ -5,22 +5,13 @@
              Title="HomePage">
     <Grid RowDefinitions="*,3*,*">
         <StackLayout BackgroundColor="Pink">
-            <Label 
-                Text="Display some explainations about the app here" 
-                HorizontalOptions="Center"
-                VerticalOptions="Center" />
+            <Label Text="Display some explainations about the app here" />
         </StackLayout>
         <StackLayout BackgroundColor="Purple" Grid.Row="1">
-            <Label 
-                Text="Display a glucose chart here" 
-                HorizontalOptions="Center"
-                VerticalOptions="Center" />
+            <Label Text="Display a glucose chart here" />
         </StackLayout>
         <StackLayout BackgroundColor="LavenderBlush" Grid.Row="2">
-            <Label 
-                Text="Display a button to talk to dia here" 
-                HorizontalOptions="Center"
-                VerticalOptions="Center" />
+            <Label Text="Display a button to talk to dia here" />
         </StackLayout>
     </Grid>
 </ContentPage>

@@ -26,23 +26,28 @@ namespace Diabot.ViewModels.Scheduler
         }
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(MealDuration))]
         ScheduleItem mealSession;
 
-        [ObservableProperty]
-        ObservableCollection<Meal> meals; 
+        public int MealDuration => MealSession != null ? (MealSession.To - MealSession.From).Minutes : 0;
 
         [ObservableProperty]
-        bool isLoadingMeals;
+        ObservableCollection<Meal> meals;
+
+        [ObservableProperty]
+        ObservableCollection<NutritionMetric> nutritionMetrics;
 
         [RelayCommand]
-        async Task GetMealsAsync()
+        async Task FetchAllMealsAsync()
         {
-            if (IsLoadingMeals) return;
+            if (IsBusy) return;
+            if (MealSession == null) return;
 
             try
             {
-                IsLoadingMeals = true;
+                IsBusy = true;
                 Meals = await _mealService.GetMealsByIds(MealSession.MealIds);
+                AggregateNutrition();
             }
             catch (Exception ex)
             {
@@ -50,12 +55,12 @@ namespace Diabot.ViewModels.Scheduler
             }
             finally
             {
-                IsLoadingMeals = false;
+                IsBusy = false;
             }
         }
 
         [RelayCommand]
-        async Task GoToUpdateMealSessionPageAsync()
+        async Task GoToEditMealSessionPageAsync()
         {
             if (IsBusy) return;
 
@@ -71,7 +76,7 @@ namespace Diabot.ViewModels.Scheduler
             {
                 IsBusy = true;
                 await _schedulerService.DeleteScheduleItem(mealSession.ScheduleItemId.ToString());
-                await Shell.Current.GoToAsync($"{nameof(SchedulerPage)}");
+                await Shell.Current.GoToAsync($"{nameof(SchedulerPage)}?Reload={true}");
             }
             catch (Exception ex)
             {
@@ -81,6 +86,44 @@ namespace Diabot.ViewModels.Scheduler
             {
                 IsBusy = false;
             }
+        }
+
+        [RelayCommand]
+        void AggregateNutrition()
+        {
+            if (Meals == null) return;
+
+            double slowCarbs = 0;
+            double mediumCarbs = 0;
+            double fastCarbs = 0;
+            double extraCarbsOffset = 0;
+
+            foreach (var meal in Meals)
+            {
+                foreach (var ingredient in meal.Ingredients)
+                {
+                    if (ingredient.CarbType == CarbType.Slow)
+                    {
+                        slowCarbs += ingredient.CarbAmount;
+                    }
+                    else if (ingredient.CarbType == CarbType.Medium)
+                    {
+                        mediumCarbs += ingredient.CarbAmount;
+                    }
+                    else
+                    {
+                        fastCarbs += ingredient.CarbAmount;
+                    }
+                }
+                extraCarbsOffset += meal.ExtraCarbsOffset;
+            }
+
+            NutritionMetrics = new ObservableCollection<NutritionMetric> {
+                new NutritionMetric { Name = "Slow Carbs", Value = slowCarbs },
+                new NutritionMetric { Name = "Medium Carbs", Value = mediumCarbs },
+                new NutritionMetric { Name = "Fast Carbs", Value = fastCarbs },
+                new NutritionMetric { Name = "Extra Carbs Offset", Value = extraCarbsOffset },
+            };
         }
     }
 }

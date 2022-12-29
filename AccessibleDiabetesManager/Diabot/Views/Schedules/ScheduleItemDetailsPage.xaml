@@ -1,12 +1,162 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Diabot.ViewModels.Scheduler"
+             xmlns:model="clr-namespace:Diabot.Models"
              x:Class="Diabot.Views.Scheduler.ScheduleItemDetailsPage"
-             Title="ScheduleItemDetailsPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:DataType="viewmodel:ScheduleItemDetailsViewModel"
+             Title="{Binding Title}">
+    
+    <ScrollView>
+        <Grid RowDefinitions="*"
+              ColumnDefinitions="*">
+            <VerticalStackLayout>
+                <Grid 
+                    ColumnDefinitions="*,Auto,*"
+                    RowDefinitions="140,Auto">
+                    <BoxView
+                            Color="{StaticResource Secondary}"
+                            Grid.ColumnSpan="3"
+                            HeightRequest="140"
+                            HorizontalOptions="FillAndExpand"/>
+
+                    <Label Grid.ColumnSpan="3" 
+                           FontSize="Subtitle"
+                           Padding="20"
+                           HorizontalOptions="Center"
+                           Text="View meal session details here" />
+                    <Frame
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            HeightRequest="160"
+                            WidthRequest="160"
+                            CornerRadius="90"
+                            HorizontalOptions="Center"
+                            IsClippedToBounds="True"
+                            Padding="0"
+                            Margin="0,60,0,0">
+                        <Image HeightRequest="140"
+                               WidthRequest="140"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Source="dotnet_bot.png" />
+                    </Frame>
+                </Grid>
+
+                <VerticalStackLayout Padding="10"
+                                     Margin="30,20" 
+                                     Spacing="20">
+                    <Frame
+                    Padding="0"
+                    CornerRadius="20"
+                    BackgroundColor="{StaticResource Primary}">
+                        <VerticalStackLayout 
+                        Padding="20" 
+                        Spacing="10" 
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center">
+                            <Label Text="{Binding MealSession.MealName}" FontSize="24" HorizontalTextAlignment="Center" TextColor="White"/>
+                            <Label Text="{Binding MealSession.Notes}" FontSize="18" HorizontalTextAlignment="Center" TextColor="{StaticResource Secondary}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Grid ColumnDefinitions="*,*"
+                          RowDefinitions="*,*"
+                          RowSpacing="15"
+                          ColumnSpacing="15">
+                        <Frame CornerRadius="10" BackgroundColor="{StaticResource Secondary}">
+                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label Text="Meal Date" />
+                                <Label Text="{Binding MealSession.From.Date, StringFormat='{0:dd/MM/yyyy}'}" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame Grid.Column="1" CornerRadius="10" BackgroundColor="{StaticResource Secondary}">
+                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label Text="Meal Time" />
+                                <Label Text="{Binding MealSession.From.TimeOfDay, StringFormat='{0:hh\\:mm}'}" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame Grid.Row="1" Grid.Column="0" CornerRadius="10" BackgroundColor="{StaticResource Secondary}">
+                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label Text="Meal Duration" />
+                                <Label Text="{Binding MealDuration, StringFormat='{0} minutes'}" />
+                            </StackLayout>
+                        </Frame>
+                        <Frame Grid.Row="1" Grid.Column="1" CornerRadius="10" BackgroundColor="{StaticResource Secondary}"></Frame>
+                    </Grid>
+
+                    <StackLayout>
+                        <Frame BackgroundColor="{StaticResource Primary}" Padding="30,15" Margin="0,0,0,10"
+                    CornerRadius="10">
+                            <Label Text="Food List" TextColor="White" FontSize="20"  HorizontalOptions="Center"/>
+                        </Frame>
+                        <CollectionView ItemsSource="{Binding Meals}"
+                                        SelectionMode="None">
+                            <CollectionView.EmptyView>
+                                <ContentView>
+                                    <VerticalStackLayout Padding="10,5">
+                                        <Label Text="None"
+                                               HorizontalOptions="CenterAndExpand"
+                                               HorizontalTextAlignment="Center"
+                                               TextColor="{StaticResource Primary}"/>
+                                    </VerticalStackLayout>
+                                </ContentView>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:Meal">
+                                    <Frame Padding="0" Margin="10,5">
+                                        <Grid RowDefinitions="*" 
+                                                ColumnDefinitions="100,*"
+                                                ColumnSpacing="15">
+                                            <Image Aspect="AspectFill"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100"
+                                                   Source="{Binding ImageUrl}" />
+                                            <Label Grid.Column="1"
+                                                    Text="{Binding MealName}" 
+                                                    VerticalOptions="Center"
+                                                    FontSize="16" />
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Frame BackgroundColor="{StaticResource Primary}" Padding="30,15" Margin="0,0,0,10"
+                    CornerRadius="10">
+                            <Label Text="Nutritional Metrics" TextColor="White" FontSize="20"  HorizontalOptions="Center"/>
+                        </Frame>
+                        <ListView ItemsSource="{Binding NutritionMetrics}">
+                            <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="model:NutritionMetric">
+                                <TextCell Text="{Binding Name}"
+                                          Detail="{Binding Value}" />
+                            </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                    
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Text="Edit Meal" 
+                            BackgroundColor="Gray"
+                            Command="{Binding GoToEditMealSessionPageCommand}" 
+                            CommandParameter="{Binding MealSession}" />
+                        <Button Grid.Column="1" 
+                            Text="Delete Meal" 
+                            BackgroundColor="Red"
+                            Command="{Binding DeleteMealSessionCommand}"
+                            CommandParameter="{Binding MealSession}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <ActivityIndicator
+                HorizontalOptions="Fill"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center" />
+        </Grid>
+    </ScrollView>
 </ContentPage>
