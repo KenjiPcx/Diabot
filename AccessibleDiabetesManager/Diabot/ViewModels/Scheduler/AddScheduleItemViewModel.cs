@@ -29,11 +29,9 @@ namespace Diabot.ViewModels.Scheduler
         string notes;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(MealStartTime))]
         DateTime selectedDate;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(MealStartTime))]
         TimeSpan selectedTime;
 
         public DateTime MealStartTime => SelectedDate.Add(SelectedTime);
@@ -72,13 +70,15 @@ namespace Diabot.ViewModels.Scheduler
         [RelayCommand]
         void AddMealToScheduleItem()
         {
-            Meals.Add(selectedMeal);
+            if (SelectedMeal == null) return;
+            Meals.Add(SelectedMeal);
         }
 
         [RelayCommand]
-        void RemoveMealFromScheduleItem()
+        void RemoveMealFromScheduleItem(Meal meal)
         {
-            Meals.Remove(selectedMeal);
+            if (SelectedMeal == null) return;
+            Meals.Remove(meal);
         }
 
         [RelayCommand]

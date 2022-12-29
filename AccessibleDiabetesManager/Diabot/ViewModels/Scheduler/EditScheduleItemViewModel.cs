@@ -2,10 +2,12 @@
 using CommunityToolkit.Mvvm.Input;
 using Diabot.Models;
 using Diabot.Services.Interfaces;
+using Diabot.Views.Scheduler;
 using System.Collections.ObjectModel;
 
 namespace Diabot.ViewModels.Scheduler
 {
+    [QueryProperty(nameof(MealSession), "MealSession")]
     public partial class EditScheduleItemViewModel : BaseViewModel
     {
         private readonly IMealService _mealService;
@@ -24,17 +26,24 @@ namespace Diabot.ViewModels.Scheduler
 
         [ObservableProperty]
         Meal selectedMeal;
+
+        [ObservableProperty]
+        DateTime selectedDate;
+
+        [ObservableProperty]
+        TimeSpan selectedTime;
+
+        public DateTime MealStartTime => SelectedDate.Add(SelectedTime);
+
+        [ObservableProperty]
+        int mealDuration;
         
         [ObservableProperty]
         ObservableCollection<Meal> meals;
 
-        [ObservableProperty]
-        bool isLoadingMeals;
-
         [RelayCommand]
         async Task FetchAllMealsAsync()
         {
-            if (IsBusy) return;
             if (MealSession == null) return;
 
             try
@@ -52,19 +61,14 @@ namespace Diabot.ViewModels.Scheduler
             }
         }
 
-
-        public ObservableCollection<Meal> MealPickerOptions { get; set; }
-
         [ObservableProperty]
-        bool isLoadingMealPickerOptions;
+        ObservableCollection<Meal> mealPickerOptions;
 
         private async Task LoadMealPickerOptions()
         {
-            if (IsLoadingMealPickerOptions) return;
-
             try
             {
-                IsLoadingMealPickerOptions = true;
+                IsBusy = true;
                 MealPickerOptions = await _mealService.GetAllMeals();
             }
             catch (Exception ex)
@@ -73,20 +77,22 @@ namespace Diabot.ViewModels.Scheduler
             }
             finally
             {
-                IsLoadingMealPickerOptions = false;
+                IsBusy = false;
             }
         }
 
         [RelayCommand]
-        void AddMealToScheduleItemAsync()
+        void AddMealToScheduleItem()
         {
-            Meals.Add(selectedMeal);
+            if (SelectedMeal == null) return;
+            Meals.Add(SelectedMeal);
         }
 
         [RelayCommand]
-        void RemoveMealFromScheduleItemAsync()
+        void RemoveMealFromScheduleItem(Meal meal)
         {
-            Meals.Remove(selectedMeal);
+            if (SelectedMeal == null) return;
+            Meals.Remove(meal);
         }
 
         [RelayCommand]
@@ -97,7 +103,11 @@ namespace Diabot.ViewModels.Scheduler
             try
             {
                 IsBusy = true;
+                MealSession.MealIds = Meals.Select(meal => meal.MealId.ToString()).ToList();
+                MealSession.From = MealStartTime;
+                MealSession.To = MealStartTime.AddMinutes(MealDuration);
                 await _schedulerService.UpdateScheduleItem(MealSession.ScheduleItemId.ToString(), MealSession);
+                await Shell.Current.GoToAsync($"{nameof(SchedulerPage)}?Reload={true}");
             }
             catch (Exception ex)
             {
@@ -107,6 +117,13 @@ namespace Diabot.ViewModels.Scheduler
             {
                 IsBusy = false;
             }
+        }
+
+        public void InitSelectedDateTime()
+        {
+            SelectedDate = MealSession.From;
+            SelectedTime = MealSession.From.TimeOfDay;
+            MealDuration = (MealSession.To - MealSession.From).Minutes;
         }
     }
 }

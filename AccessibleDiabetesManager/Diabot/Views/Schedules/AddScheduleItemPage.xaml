@@ -23,7 +23,7 @@
                            FontSize="Subtitle"
                            Padding="20"
                            HorizontalOptions="Center"
-                           Text="Schedule a meal here" />
+                           Text="Schedule/Log Carbs for a meal here" />
                     <Frame
                             Grid.RowSpan="2"
                             Grid.Column="1"

@@ -64,7 +64,10 @@ namespace Diabot.ViewModels.Scheduler
         {
             if (IsBusy) return;
 
-            await Shell.Current.GoToAsync($"{nameof(EditScheduleItemPage)}", true);
+            await Shell.Current.GoToAsync($"{nameof(EditScheduleItemPage)}", true, new Dictionary<string, object>
+            {
+                { "MealSession", MealSession }
+            });
         }
 
         [RelayCommand]
@@ -75,7 +78,7 @@ namespace Diabot.ViewModels.Scheduler
             try
             {
                 IsBusy = true;
-                await _schedulerService.DeleteScheduleItem(mealSession.ScheduleItemId.ToString());
+                await _schedulerService.DeleteScheduleItem(MealSession.ScheduleItemId.ToString());
                 await Shell.Current.GoToAsync($"{nameof(SchedulerPage)}?Reload={true}");
             }
             catch (Exception ex)
