@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+             xmlns:viewmodel="clr-namespace:Diabot.ViewModels.Scheduler"
+             xmlns:model="clr-namespace:Diabot.Models"
+             x:Class="Diabot.Views.Scheduler.SchedulerPage"
+             x:DataType="viewmodel:SchedulerViewModel"
+             Title="{Binding Title}">
+    
+    <Grid RowDefinitions="*">
+        <Grid.Resources>
+            <DataTemplate x:Key="appointmentTemplate" x:DataType="scheduler:SchedulerAppointment">
+                <Grid Background="MediumPurple">
+                    <Label Text="{Binding Subject}" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontFamily="Bold"/>
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        <scheduler:SfScheduler x:Name="Scheduler" AppointmentsSource="{Binding Meals}">
+            <scheduler:SfScheduler.DaysView>
+                <scheduler:SchedulerDaysView AppointmentTemplate="{StaticResource appointmentTemplate}"/>
+            </scheduler:SfScheduler.DaysView>
+            <scheduler:SfScheduler.AppointmentMapping>
+                <scheduler:SchedulerAppointmentMapping 
+                    Subject="MealName"
+                    StartTime="From"
+                    EndTime="To"
+                    Id="ScheduleItemId"
+                    Background="Background"
+                    Notes="Notes" />
+            </scheduler:SfScheduler.AppointmentMapping>
+        </scheduler:SfScheduler>
+    </Grid>
+</ContentPage>

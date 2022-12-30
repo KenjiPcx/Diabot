@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Diabot.Models"
+             xmlns:viewmodel="clr-namespace:Diabot.ViewModels.Meals"
+             x:Class="Diabot.Views.Meals.MealDetailsPage"
+             x:DataType="viewmodel:MealDetailsViewModel"
+             Title="{Binding Meal.MealName}">
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid ColumnDefinitions="*,Auto,*"
+                  RowDefinitions="140,Auto">
+                <BoxView
+                    Color="{StaticResource Secondary}"
+                    Grid.ColumnSpan="3"
+                    HeightRequest="140"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Frame
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    HeightRequest="160"
+                    WidthRequest="160"
+                    CornerRadius="90"
+                    HorizontalOptions="Center"
+                    IsClippedToBounds="True"
+                    Padding="0"
+                    Margin="0,60,0,0">
+                    <Image 
+                        Aspect="AspectFill"
+                        HeightRequest="160"
+                        WidthRequest="160"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Source="{Binding Meal.ImageUrl}"/>
+                </Frame>
+            </Grid>
+
+            <VerticalStackLayout
+                Padding="10"
+                Margin="30,20"
+                Spacing="30">
+                <Frame
+                    Padding="0"
+                    CornerRadius="20"
+                    BackgroundColor="{StaticResource Primary}">
+                    <VerticalStackLayout 
+                        Padding="20" 
+                        Spacing="10" 
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center">
+                        <Label Text="{Binding Meal.MealName}" FontSize="24" HorizontalTextAlignment="Center" TextColor="White"/>
+                        <Label Text="{Binding Meal.MealDescription}" FontSize="18" HorizontalTextAlignment="Center" TextColor="{StaticResource Secondary}"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <VerticalStackLayout>
+                    <Label 
+                        Text="Ingredients" 
+                        HorizontalTextAlignment="Center" 
+                        FontSize="18" 
+                        Margin="0,0,0,10"/>
+                    <ListView ItemsSource="{Binding Meal.Ingredients}" SelectionMode="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Ingredient">
+                                <TextCell 
+                                    Text="{Binding IngredientName}"
+                                    Detail="{Binding Details}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label 
+                        Text="Nutritional Info" 
+                        HorizontalTextAlignment="Center" 
+                        FontSize="18" 
+                        Margin="0,0,0,10"/>
+                    <ListView ItemsSource="{Binding NutritionMetrics}" SelectionMode="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="model:NutritionMetric">
+                                <TextCell 
+                                    Text="{Binding Name}"
+                                    Detail="{Binding Value}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button Text="Edit Meal" 
+                            BackgroundColor="Gray"
+                            Command="{Binding GoToEditPageCommand}" 
+                            CommandParameter="{Binding Meal}" />
+                    <Button Grid.Column="1" 
+                            Text="Delete Meal" 
+                            BackgroundColor="Red"
+                            Command="{Binding DeleteMealCommand}"
+                            CommandParameter="{Binding Meal}" />
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
