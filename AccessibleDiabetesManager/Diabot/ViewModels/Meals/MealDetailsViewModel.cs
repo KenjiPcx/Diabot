@@ -17,7 +17,6 @@ namespace Diabot.ViewModels.Meals
         }
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(NutritionalInfo))]
         Meal meal;
 
         [RelayCommand]
@@ -56,62 +55,39 @@ namespace Diabot.ViewModels.Meals
             }
         }
 
-        private Dictionary<CarbType, double> _carbsDistribution;
+        [ObservableProperty]
+        ObservableCollection<NutritionMetric> nutritionMetrics;
 
-        public MealDetailsViewModel()
+        [RelayCommand]
+        void AggregateNutrition()
         {
-            _carbsDistribution = new Dictionary<CarbType, double>();
-        }
+            if (Meal is null) return;
 
-        partial void OnMealChanging(Meal value)
-        {
-            CalcCarbsDist(value);
-        }
+            double slowCarbs = 0;
+            double mediumCarbs = 0;
+            double fastCarbs = 0;
 
-        private void CalcCarbsDist(Meal meal)
-        {
-            // todo: Change this
-            _carbsDistribution = new Dictionary<CarbType, double>();
             foreach (var ingredient in meal.Ingredients)
             {
-                if (_carbsDistribution.ContainsKey(ingredient.CarbType))
+                if (ingredient.CarbType == CarbType.Slow)
                 {
-                    _carbsDistribution[ingredient.CarbType] += ingredient.CarbAmount;
+                    slowCarbs += ingredient.CarbAmount;
+                }
+                else if (ingredient.CarbType == CarbType.Medium)
+                {
+                    mediumCarbs += ingredient.CarbAmount;
                 }
                 else
                 {
-                    _carbsDistribution[ingredient.CarbType] = ingredient.CarbAmount;
+                    fastCarbs += ingredient.CarbAmount;
                 }
             }
+
+            NutritionMetrics = new ObservableCollection<NutritionMetric> {
+                new NutritionMetric { Name = "Slow Carbs", Value = slowCarbs },
+                new NutritionMetric { Name = "Medium Carbs", Value = mediumCarbs },
+                new NutritionMetric { Name = "Fast Carbs", Value = fastCarbs },
+            };
         }
-
-        public ObservableCollection<TextCell> NutritionalInfo
-        {
-            get
-            {
-                if (_carbsDistribution == null) 
-                    return new ObservableCollection<TextCell>();
-
-                try
-                {
-                    var cells = _carbsDistribution.Select(
-                    pair => new TextCell
-                    {
-                        Text = $"Total {pair.Key} Carbs",
-                        Detail = $"{pair.Value}g"
-                    });
-                    cells = cells.Append(new TextCell
-                    {
-                        Text = "Extra Carbs Offset",
-                        Detail = $"{Meal.ExtraCarbsOffset}g"
-                    });
-                    return new ObservableCollection<TextCell>(cells);
-                } 
-                catch (Exception ex)
-                {
-                    return new ObservableCollection<TextCell>();
-                }
-            }
-        } 
     }
 }
