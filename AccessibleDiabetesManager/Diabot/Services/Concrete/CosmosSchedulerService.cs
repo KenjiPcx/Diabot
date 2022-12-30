@@ -68,5 +68,20 @@ namespace Diabot.Services.Concrete
         {
             await _container.DeleteItemAsync<ScheduleItem>(id, PartitionKey.None);
         }
+
+        public async Task<ObservableCollection<ScheduleItem>> GetAllScheduleItemsBeforeDatetime(DateTime datetime)
+        {
+            IOrderedQueryable<ScheduleItem> queryable = _container.GetItemLinqQueryable<ScheduleItem>();
+            var matches = queryable.Where(item => item.To < datetime);
+            using FeedIterator<ScheduleItem> linqFeed = matches.ToFeedIterator();
+
+            var schedules = new List<ScheduleItem>();
+            while (linqFeed.HasMoreResults)
+            {
+                FeedResponse<ScheduleItem> response = await linqFeed.ReadNextAsync();
+                schedules.AddRange(response);
+            }
+            return new ObservableCollection<ScheduleItem>(schedules);
+        }
     }
 }

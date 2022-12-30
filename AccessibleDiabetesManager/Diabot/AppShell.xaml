@@ -5,18 +5,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:meals="clr-namespace:Diabot.Views.Meals"
     xmlns:scheduler="clr-namespace:Diabot.Views.Scheduler"
-    xmlns:home="clr-namespace:Diabot.Views.Home"
-    Shell.FlyoutBehavior="Disabled">
-
+    xmlns:home="clr-namespace:Diabot.Views.Home">
+    
     <TabBar>
-        <ShellContent
-            Title="Meals"
-            ContentTemplate="{DataTemplate meals:MealsPage}"
-            Icon="foodbowl.svg" />
         <ShellContent
             Title="Home"
             ContentTemplate="{DataTemplate home:HomePage}"
             Icon="sugarcubes.svg" />
+        <ShellContent
+            Title="Meals"
+            ContentTemplate="{DataTemplate meals:MealsPage}"
+            Icon="foodbowl.svg" />
         <ShellContent
             Title="Schedule"
             ContentTemplate="{DataTemplate scheduler:SchedulerPage}"

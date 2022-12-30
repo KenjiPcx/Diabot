@@ -12,6 +12,7 @@ namespace Diabot.Services.Interfaces
     {
         Task<ObservableCollection<ScheduleItem>> GetAllScheduleItems();
         Task<ScheduleItem> GetScheduleItemById(string id);
+        Task<ObservableCollection<ScheduleItem>> GetAllScheduleItemsBeforeDatetime(DateTime datetime);
         Task<ScheduleItem> UpdateScheduleItem(string id, ScheduleItem updatedItem);
         Task<ScheduleItem> AddScheduleItem(ScheduleItem newItem);
         Task DeleteScheduleItem(string id);

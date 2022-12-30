@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:Diabot.ViewModels.Home"
              xmlns:model="clr-namespace:Diabot.Models"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
              x:Class="Diabot.Views.Home.HomePage"
              x:DataType="viewmodel:HomeViewModel"
              Title="{Binding Title}">
@@ -28,24 +29,85 @@
         
         <Grid Grid.Row="1"
               RowDefinitions="2.5*,*">
-            <StackLayout Grid.Row="0" BackgroundColor="Pink" Padding="20">
-                <Label Text="Chart" 
-                       VerticalTextAlignment="Center"/>
-            </StackLayout>
+            <Grid Grid.Row="0" 
+                  RowDefinitions="*,10*"
+                  BackgroundColor="Pink" 
+                  Padding="20">
+                <Label Text="Glucose Levels Chart" />
+                <chart:SfCartesianChart Grid.Row="1">
+                    <chart:SfCartesianChart.TrackballBehavior>
+                        <chart:ChartTrackballBehavior ShowLine="True" 
+                                                      DisplayMode="NearestPoint"/>
+                    </chart:SfCartesianChart.TrackballBehavior>
+                    <chart:SfCartesianChart.ZoomPanBehavior>
+                        <chart:ChartZoomPanBehavior EnablePinchZooming="True" 
+                                                    EnablePanning="True" 
+                                                    ZoomMode="X"/>
+                    </chart:SfCartesianChart.ZoomPanBehavior>
+                    
+                    <chart:SfCartesianChart.XAxes>
+                        <chart:DateTimeAxis Interval="30" 
+                                            IntervalType="Minutes" 
+                                            ZoomFactor="0.15" 
+                                            ZoomPosition="0.9" 
+                                            Maximum="{Binding MaximumDateForChart}"/>
+                    </chart:SfCartesianChart.XAxes>
+                    <chart:SfCartesianChart.YAxes>
+                        <chart:NumericalAxis Minimum="60" 
+                                             Maximum="140" 
+                                             ZoomFactor="1"/>
+                    </chart:SfCartesianChart.YAxes>
+
+                    <chart:SfCartesianChart.Legend>
+                        <chart:ChartLegend/>
+                    </chart:SfCartesianChart.Legend>
+
+                    <chart:SplineSeries 
+                        ItemsSource="{Binding GlucoseLevels}" 
+                        Label="Glucose Level"
+                        XBindingPath="Timestamp" 
+                        YBindingPath="Value"
+                        EnableTooltip="True" 
+                        PaletteBrushes="{Binding GlucoseLevelsBrushes}"/>
+
+                    <chart:ScatterSeries 
+                        ItemsSource="{Binding LoggedMeals}" 
+						Label="Meals"
+                        PointHeight="5"
+						PointWidth="5"
+                        XBindingPath="Timestamp" 
+                        YBindingPath="Value"
+                        EnableTooltip="True" 
+                        PaletteBrushes="{Binding LoggedMealsBrushes}"/>
+                </chart:SfCartesianChart>
+            </Grid>
             <Grid Grid.Row="1"
                   ColumnDefinitions="*,*"
                   BackgroundColor="AliceBlue" 
                   Padding="20"
                   ColumnSpacing="20">
                 <Frame>
-                    <VerticalStackLayout>
-                        <Label Text="Carbs Eaten today" />
-                    </VerticalStackLayout>
+                    <Grid>
+                        <Label Text="{Binding CurrentGlucoseLevel, StringFormat='Current Glucose Level: {0}mg/dl'}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </Grid>
                 </Frame>
                 <Frame Grid.Column="1">
-                    <VerticalStackLayout>
-                        <Label Text="Carbs Left today" />
-                    </VerticalStackLayout>
+                    <Grid RowDefinitions="*">
+                        <Grid Grid.Row="1" IsVisible="{Binding NextMealExists}">
+                            <Label Grid.Row="1" 
+                                   Text="{Binding NextMeal.From, StringFormat='Next Meal Time: {0:hh:mm tt}'}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Center" />
+                        </Grid>
+                        <Grid Grid.Row="1" IsVisible="{Binding NextMealDoesNotExists}">
+                            <Label Text="Next Meal Time: Nothing Left Today" 
+                                   TextColor="{StaticResource Primary}" 
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Center" />
+                        </Grid>
+                    </Grid>
                 </Frame>
             </Grid>
         </Grid>
