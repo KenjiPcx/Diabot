@@ -9,13 +9,14 @@ using Diabot.Views.Home;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
+using Microsoft.CognitiveServices.Speech;
 
 namespace Diabot
 {
     public static class MauiProgram
     {
         private const string _cosmosEndpoint = "https://diabetes-recipes-db.documents.azure.com:443/";
-        private const string _cosmosKey = "<Enter CosmosDB Key Here>";
+        private const string _cosmosKey = "NuwYHvSpHhJx0qUSWtw23GNQ7PAagghtwMmpMyg2qzxlF1dslGNBQ5pLJmbHDRteJ8xHUKPOjhRuACDbAMM4Pg==";
 
         public static MauiApp CreateMauiApp()
         {
@@ -29,7 +30,6 @@ namespace Diabot
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            Task.Run(InitCosmosDb);
             builder = RegisterViews(builder);
             builder = RegisterViewModels(builder);
             builder = RegisterServices(builder);
@@ -96,31 +96,6 @@ namespace Diabot
             });
             builder.Services.AddSingleton(Connectivity.Current);
             return builder;
-        }
-
-        private static async Task InitCosmosDb()
-        {
-            var client = new CosmosClient(_cosmosEndpoint, _cosmosKey);
-            try
-            {
-                Database db = await client.CreateDatabaseIfNotExistsAsync(
-                        id: "diabot-db"
-                    );
-                await db.CreateContainerIfNotExistsAsync(
-                    id: "meals",
-                    partitionKeyPath: "/meals",
-                    throughput: 400
-                );
-                await db.CreateContainerIfNotExistsAsync(
-                    id: "schedules",
-                    partitionKeyPath: "/schedules",
-                    throughput: 400
-                );
-            } 
-            catch (Exception ex) 
-            {
-                await Shell.Current.DisplayAlert("Cosmos Error", $"Unable to connect to CosmosDB. {ex.Message}", "Quit");
-            }
         }
     }
 }

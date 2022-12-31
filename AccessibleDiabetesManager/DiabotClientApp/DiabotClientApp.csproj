@@ -55,6 +55,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Azure.Cosmos" Version="3.31.2" />
+		<PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.24.2" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Syncfusion.Maui.Charts" Version="20.4.41" />
