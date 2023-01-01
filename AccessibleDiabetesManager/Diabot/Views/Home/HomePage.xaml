@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:Diabot.ViewModels.Home"
+             xmlns:model="clr-namespace:Diabot.Models"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+             x:Class="Diabot.Views.Home.HomePage"
+             x:DataType="viewmodel:HomeViewModel"
+             Title="{Binding Title}">
+    <Grid RowDefinitions="1.5*,5*,*">
+        <Grid
+            ColumnDefinitions="Auto,*"
+            BackgroundColor="{StaticResource Secondary}"
+            Padding="25">
+            <Image Grid.Column="0"
+                    Aspect="AspectFill"
+                   Source="dotnet_bot.svg" />
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Welcome to Diabot" 
+                       FontSize="20" 
+                       HorizontalTextAlignment="Center" />
+                <Label Text="You can log carbs/schedule meals here either manually or through our bot, Dia!" 
+                       Padding="10,0,10,10"
+                       TextColor="{StaticResource Primary}"
+                       FontSize="15" 
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </Grid>
+        
+        <Grid Grid.Row="1"
+              RowDefinitions="2.5*,*">
+            <Grid Grid.Row="0" 
+                  RowDefinitions="*,10*"
+                  BackgroundColor="Pink" 
+                  Padding="20">
+                <Label Text="Glucose Levels Chart" />
+                <chart:SfCartesianChart Grid.Row="1">
+                    <chart:SfCartesianChart.TrackballBehavior>
+                        <chart:ChartTrackballBehavior ShowLine="True" 
+                                                      DisplayMode="NearestPoint"/>
+                    </chart:SfCartesianChart.TrackballBehavior>
+                    <chart:SfCartesianChart.ZoomPanBehavior>
+                        <chart:ChartZoomPanBehavior EnablePinchZooming="True" 
+                                                    EnablePanning="True" 
+                                                    ZoomMode="X"/>
+                    </chart:SfCartesianChart.ZoomPanBehavior>
+                    
+                    <chart:SfCartesianChart.XAxes>
+                        <chart:DateTimeAxis Interval="30" 
+                                            IntervalType="Minutes" 
+                                            ZoomFactor="0.15" 
+                                            ZoomPosition="0.9" 
+                                            Maximum="{Binding MaximumDateForChart}"/>
+                    </chart:SfCartesianChart.XAxes>
+                    <chart:SfCartesianChart.YAxes>
+                        <chart:NumericalAxis Minimum="60" 
+                                             Maximum="140" 
+                                             ZoomFactor="1"/>
+                    </chart:SfCartesianChart.YAxes>
+
+                    <chart:SfCartesianChart.Legend>
+                        <chart:ChartLegend/>
+                    </chart:SfCartesianChart.Legend>
+
+                    <chart:SplineSeries 
+                        ItemsSource="{Binding GlucoseLevels}" 
+                        Label="Glucose Level"
+                        XBindingPath="Timestamp" 
+                        YBindingPath="Value"
+                        EnableTooltip="True" 
+                        PaletteBrushes="{Binding GlucoseLevelsBrushes}"/>
+
+                    <chart:ScatterSeries 
+                        ItemsSource="{Binding LoggedMeals}" 
+						Label="Meals"
+                        PointHeight="5"
+						PointWidth="5"
+                        XBindingPath="Timestamp" 
+                        YBindingPath="Value"
+                        EnableTooltip="True" 
+                        PaletteBrushes="{Binding LoggedMealsBrushes}"/>
+                </chart:SfCartesianChart>
+            </Grid>
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="*,*"
+                  BackgroundColor="AliceBlue" 
+                  Padding="20"
+                  ColumnSpacing="20">
+                <Frame>
+                    <Grid>
+                        <Label Text="{Binding CurrentGlucoseLevel, StringFormat='Current Glucose Level: {0}mg/dl'}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </Grid>
+                </Frame>
+                <Frame Grid.Column="1">
+                    <Grid RowDefinitions="*">
+                        <Grid Grid.Row="1" IsVisible="{Binding NextMealExists}">
+                            <Label Grid.Row="1" 
+                                   Text="{Binding NextMeal.From, StringFormat='Next Meal Time: {0:hh:mm tt}'}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Center" />
+                        </Grid>
+                        <Grid Grid.Row="1" IsVisible="{Binding NextMealDoesNotExists}">
+                            <Label Text="Next Meal Time: Nothing Left Today" 
+                                   TextColor="{StaticResource Primary}" 
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Center" />
+                        </Grid>
+                    </Grid>
+                </Frame>
+            </Grid>
+        </Grid>
+        
+        <StackLayout Grid.Row="2"
+                     BackgroundColor="{StaticResource Secondary}" >
+            <Button Text="Talk to Dia" 
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="Center" 
+                    WidthRequest="180" 
+                    CornerRadius="20"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>

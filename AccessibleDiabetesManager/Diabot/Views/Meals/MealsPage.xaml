@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Diabot.Models"
+             xmlns:viewmodel="clr-namespace:Diabot.ViewModels.Meals"
+             x:Class="Diabot.Views.Meals.MealsPage"
+             x:DataType="viewmodel:MealsViewModel"
+             Title="All Meals">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Text="New"
+            Command="{Binding GoToAddFormCommand}" />
+    </ContentPage.ToolbarItems>
+    
+    <Grid ColumnDefinitions="*"
+          RowDefinitions="*">
+        <RefreshView
+            Command="{Binding GetAllMealsCommand}"
+            IsRefreshing="{Binding IsRefreshing}" >
+            <ContentView Padding="10" 
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center">
+                <CollectionView
+                    ItemsSource="{Binding Meals}"
+                    IsVisible="{Binding IsNotBusy}"
+                    SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="50"
+                                             Spacing="30"
+                                             HeightRequest="600"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center">
+                            <Frame BackgroundColor="{StaticResource Secondary}">
+                                <Label Text="No meals found :("
+                                       FontSize="Medium"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center"
+                                       HorizontalTextAlignment="Center"/>
+                            </Frame>
+                            <Image Aspect="AspectFill"
+                                   Source="dotnet_bot.svg" />
+                            <Button Text="Add a meal"
+                                    Command="{Binding GoToAddFormCommand}"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Meal">
+                            <Grid Padding="10">
+                                <Frame HeightRequest="125" Padding="0">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            CommandParameter="{Binding .}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MealsViewModel}}, Path=GoToDetailsCommand}">
+                                        </TapGestureRecognizer>
+                                    </Frame.GestureRecognizers>
+                                    <Grid Padding="0" ColumnDefinitions="125,*">
+                                        <Image
+                                            Aspect="AspectFill"
+                                            HeightRequest="125"
+                                            WidthRequest="125"
+                                            Source="{Binding ImageUrl}" />
+                                        <VerticalStackLayout
+                                            Grid.Column="1"
+                                            VerticalOptions="Center"
+                                            Padding="20">
+                                            <Label Text="{Binding MealName}" FontSize="20"/>
+                                            <Label Text="{Binding MealDescription}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ContentView>
+        </RefreshView>
+
+        <ActivityIndicator
+            HorizontalOptions="Fill"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="Center" />
+    </Grid>
+</ContentPage>
