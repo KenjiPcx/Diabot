@@ -119,6 +119,9 @@
                     HorizontalOptions="Center" 
                     WidthRequest="180" 
                     CornerRadius="20"/>
+                    <!--Command="{Binding ListenToUserVoiceInputCommand}"-->
+            <!--<Label Text="{Binding BotStatus}" />
+            <Label Text="{Binding SaidMsg}" />-->
         </StackLayout>
     </Grid>
 </ContentPage>

@@ -10,13 +10,14 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
 using Microsoft.CognitiveServices.Speech;
+using Plugin.Maui.Audio;
 
 namespace Diabot
 {
     public static class MauiProgram
     {
         private const string _cosmosEndpoint = "https://diabetes-recipes-db.documents.azure.com:443/";
-        private const string _cosmosKey = "NuwYHvSpHhJx0qUSWtw23GNQ7PAagghtwMmpMyg2qzxlF1dslGNBQ5pLJmbHDRteJ8xHUKPOjhRuACDbAMM4Pg==";
+        private const string _cosmosKey = "<YOUR COSMOS DB KEY";
 
         public static MauiApp CreateMauiApp()
         {
@@ -95,6 +96,7 @@ namespace Diabot
                 return client;
             });
             builder.Services.AddSingleton(Connectivity.Current);
+            builder.Services.AddSingleton(AudioManager.Current);
             return builder;
         }
     }
