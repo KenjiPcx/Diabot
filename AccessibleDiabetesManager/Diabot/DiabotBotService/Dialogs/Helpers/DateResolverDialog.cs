@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DiabotBotService.Dialogs
+namespace Diabot.Dialogs.Helpers
 {
     public class DateResolverDialog : CancelAndHelpDialog
     {

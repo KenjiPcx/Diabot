@@ -3,6 +3,9 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio CoreBot v4.18.1
 
+using Diabot.Dialogs.Meals;
+using Diabot.Services;
+using Diabot.Services.Interfaces;
 using DiabotBotService.Bots;
 using DiabotBotService.Dialogs;
 using Microsoft.AspNetCore.Builder;
@@ -40,14 +43,19 @@ namespace DiabotBotService
             // Register LUIS recognizer
             services.AddSingleton<FlightBookingRecognizer>();
 
-            // Register the BookingDialog.
-            services.AddSingleton<BookingDialog>();
+            // Register the Dialogs.
+            services.AddSingleton<AddMealDialog>();
+            services.AddSingleton<RemoveMealDialog>();
+            services.AddSingleton<AddMealIngredientDialog>();
+            services.AddSingleton<RemoveMealIngredientDialog>();
 
             // The MainDialog that will be run by the bot.
             services.AddSingleton<MainDialog>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, DialogAndWelcomeBot<MainDialog>>();
+
+            services.AddSingleton<IMealService, CosmosMealService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,7 +9,7 @@ using Microsoft.Bot.Schema;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DiabotBotService.Dialogs
+namespace Diabot.Dialogs.Helpers
 {
     public class CancelAndHelpDialog : ComponentDialog
     {
