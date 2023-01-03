@@ -7,10 +7,13 @@ We tried working on many different solutions but at the very least, they are all
 ### Details
 For the first iteration, we wanted to try to connect to db and have it track glucose levels, we planned to have several pages with some charts for glucose levels, health indicators, carb logging and notifications to be sent given specific levels of the health indicators... We did not manage to make a mock or connect it with other application because we found the tool not flexible enough to implement the solution. We were not able to control the flow for this reason we scrapped this method. ❌
 
-@jjavv talk about notifications
+We tried working on notifications for diabetes management apps like reminders to turn on sports mode using Power Automate, but without an app to connect to, we scrapped this as well. ❌
 
 ### What we used
-
+- Power Apps 
+- Power Automate (for notifications)
+- Power BI (for dashboards)
+- Microsoft Dataverse 
 
 ## Second Iteration using Maui
 ### Details
@@ -19,7 +22,7 @@ For the second iteration, we wanted to try connecting a CGM to an app and have i
 ### Tools and technologies used
 - .NET MAUI for Mock CGM and App
 - .NET 7
-- Azure SignalR Service
+- Azure SignalR Service (to act as a messaging hub)
 
 ## Third Iteration using Maui
 ### Details
