@@ -1,5 +1,6 @@
-### AccessibleDiabetesApp
-## Description: Diabot is a carb logger app to help diabetes patients manage their carbs and glucose level but with a twist, they get to interact with a personal assistant bot, we are taking advantage of chatbots to make carb logger apps more user friendly and accessible
+## AccessibleDiabetesApp
+## Description: 
+Diabot is a carb logger app to help diabetes patients manage their carbs and glucose level but with a twist, they get to interact with a personal assistant bot, we are taking advantage of chatbots to make carb logger apps more user friendly and accessible
 
 ## Team Name: DiaBot
 ## Team Member: Kenji Phang, Javeria Ehsan, Maryem Benali,  Eleonora Criscione
