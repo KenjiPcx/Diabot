@@ -5,10 +5,8 @@ We tried working on many different solutions but at the very least, they are all
 
 ## First Iteration using Power Apps
 ### Details
-@lahybris and @maryem-ben-ali talk about power apps
-... not able to connect to db
-... not able to have control flow
-... not flexible enough to implement
+For the first iteration, we wanted to try to connect to db and have it track glucose levels, we planned to have several pages with some charts for glucose levels, health indicators, carb logging and notifications to be sent given specific levels of the health indicators... We did not manage to make a mock or connect it with other application because we found the tool not flexible enough to implement the solution. We were not able to control the flow for this reason we scrapped this method. ❌
+
 @jjavv talk about notifications
 
 ### What we used
