@@ -22,11 +22,9 @@ https://user-images.githubusercontent.com/56083944/210425222-048835dd-ff67-4c96-
 - A signalr server which hosts hub that the diabot client can connect to to get glucose levels 
 
 ## Technologies used
-### App
+### App & Bot
 - .NET Maui
 - .NET Core
-
-### Bot
 - CosmosDb 
 - Azure Bot
 - Azure App Service 
