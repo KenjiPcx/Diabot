@@ -1,4 +1,4 @@
-##Solutions we are planning to include: 
+## Solutions we are planning to include: 
 Azure Machine Learning (ML) can be used to fine-tune the predicted glucose levels for individual users and retrain the model periodically with user data.
 This can help improve the accuracy of the predictions and make the insulin delivery plan more personalized and effective.
 
