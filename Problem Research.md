@@ -1,4 +1,4 @@
-### Problem Research 
+# Problem Research 
 ## Which was the starting point of the research?
 Diabetes management apps can be a useful tools for people with diabetes to help them manage their condition, but like any tool, they can also have their limitations. 
 
