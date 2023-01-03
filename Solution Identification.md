@@ -7,7 +7,7 @@
 
 * In order to store commonly used recipes Azure Databases could be choosen toghether with Azure Bots, that can be used to interact with the app and provide summaries and other information to users.
 
-Other option we could have implemented if there was the time were: 
+Other options we could have implemented if there was the time were: 
 
 * Azure Maps can also be integrated into the app to remind users to record their carbohydrate intake and provide other helpful reminders, 
 such as when they are in a gym or other location where they may be more likely to need to manage their diabetes.
